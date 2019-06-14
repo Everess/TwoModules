@@ -53,7 +53,6 @@ public class SwaggerConfig {
      * @return
      */
     public ApiInfo metaInfo() {
-
         ApiInfo apiInfo = new ApiInfo(
                 "My custom swagger",
                 null,
