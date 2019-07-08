@@ -1,0 +1,4 @@
+rootProject.name = 'TwoModules'
+include 'FirstModule'
+include 'SecondModule'
+
