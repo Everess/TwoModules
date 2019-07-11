@@ -26,7 +26,6 @@ public class TestController {
 
     /**
      * This method allows get index page
-     * @return
      */
     @ApiOperation(value = "Get log message")
     @ApiResponses(value = {

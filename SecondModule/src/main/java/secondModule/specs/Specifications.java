@@ -8,5 +8,5 @@ import java.util.function.Predicate;
 
 public interface Specifications<T> {
 
-    Predicate toPredicate(Root<T> root, CriteriaQuery query, CriteriaBuilder cb);
+    Predicate toPredicate(Root<T> root, CriteriaQuery query, CriteriaBuilder builder);
 }

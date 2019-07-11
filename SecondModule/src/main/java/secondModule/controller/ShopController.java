@@ -1,14 +1,10 @@
 package secondModule.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
-import secondModule.dto.Shop;
-import secondModule.repo.ShopRepo;
-import secondModule.service.ShopService;
-import secondModule.specs.ShopSpecs;
+import secondModule.model.Shop;
+import secondModule.service.ShopServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,50 +14,39 @@ import java.util.List;
 @RequestMapping("/shop")
 public class ShopController {
 
-    @Autowired
-    public ShopSpecs shopSpecs;
+    private final ShopServiceImpl shopService;
 
     @Autowired
-    public ShopRepo shopRepo;
-
-    @Autowired
-    public ShopService shopService;
-
-    /**
-     * This method allows get all shops from database
-     *
-     * @return
-     */
-    @GetMapping
-    public List<Shop> findAllShops() {
-        return shopRepo.findAll();
+    private ShopController(ShopServiceImpl shopService) {
+        this.shopService = shopService;
     }
+
+    /** Need for test native query with params */
+    /*
+    @GetMapping(value = "/queryParam", params = "id_shop")
+    public List<Shop> getShopsByIdShopCtrl(@RequestParam("id_shop") Integer idShop) {
+        return shopService.getShopsByIdShop(idShop);
+    } */
 
     /**
      * This method allows get and sort Shop(s) by shop title
      *
      * @param shopTitle
-     * @param region
-     * @return
+     * @param idRegion
      */
     @GetMapping(params = {"shop_title", "region"})
-    public List<Shop> getShopsByShopTitle(@RequestParam("shop_title") String shopTitle,
-                                          @RequestParam("region") int region) {
+    public List<Shop> findAll(@RequestParam("shop_title") String shopTitle,
+                                          @RequestParam("region") Long idRegion) {
 
-        return shopRepo.findAll(
-                Specification.where(shopSpecs.getShopsByShopTitle(shopTitle)
-                        .and(shopSpecs.getShopsByShopRegion(region))
-                ));
+        return shopService.findAll(shopTitle, idRegion);
     }
 
     /**
-     * This method
-     *
-     * @return
+     * This method realize custom native query
      */
     @GetMapping("/query")
-    public List<Shop> findShops() {
-        return shopService.findAllShops();
+    public List<Shop> findShopByIdShop() {
+        return shopService.findShopByIdShop();
     }
 
     /**
@@ -71,13 +56,16 @@ public class ShopController {
      * @throws Exception
      */
     @PostMapping("/transactional")
-    public void createShops(@RequestBody ArrayList<Shop> shop) throws Exception {
+    public void createShops(@RequestBody List<Shop> shop) throws Exception {
         shopService.createShop(shop);
     }
-/*
+
+    /**
+     * Test method for criteria builder
+     */
     @GetMapping(value = "/criteria", params = {"shop_title", "region"})
-    public List<Shop> getShops(@RequestParam("shop_title") String shopTitle,
-                               @RequestParam("region") int region) {
-        return shopService.getShops(shopTitle, region);
-    } */
+    public List<Shop> getShopsByShopTitleAndIdRegion(@RequestParam("shop_title") String shopTitle,
+                               @RequestParam("region") Long idRegion) {
+        return shopService.getShopsByShopTitleAndIdRegion(shopTitle, idRegion);
+    }
 }

@@ -16,7 +16,6 @@ public class ShutdownController {
 
     /**
      * This method allows call shutdown application
-     * @return
      */
     @ResponseBody
     @RequestMapping(path = "/shutdown")
