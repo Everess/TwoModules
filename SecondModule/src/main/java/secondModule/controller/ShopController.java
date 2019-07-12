@@ -22,11 +22,10 @@ public class ShopController {
     }
 
     /** Need for test native query with params */
-    /*
     @GetMapping(value = "/queryParam", params = "id_shop")
     public List<Shop> getShopsByIdShopCtrl(@RequestParam("id_shop") Integer idShop) {
         return shopService.getShopsByIdShop(idShop);
-    } */
+    }
 
     /**
      * This method allows get and sort Shop(s) by shop title
@@ -36,7 +35,7 @@ public class ShopController {
      */
     @GetMapping(params = { "shop_title", "region" })
     public List<Shop> findAll(@RequestParam("shop_title") String shopTitle,
-                                          @RequestParam("region") Long idRegion) {
+                              @RequestParam("region") Long idRegion) {
 
         return shopService.findAll(shopTitle, idRegion);
     }
@@ -80,5 +79,4 @@ public class ShopController {
 
         return shopService.findAllShopsByTitleAndIdRegion(shopTitle, idRegion);
     }
-
 }

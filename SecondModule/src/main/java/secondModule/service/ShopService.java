@@ -45,4 +45,10 @@ public interface ShopService {
      * @param idRegion
      */
     List<Shop> findAllShopsByTitleAndIdRegion(String shopTitle, Long idRegion);
+
+    /**
+     * Realize native query with param
+     * @param idShop
+     */
+    List<Shop> getShopsByIdShop(Integer idShop);
 }

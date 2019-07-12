@@ -79,12 +79,11 @@ public class ShopServiceImpl implements ShopService {
         }
     }
 
-    /** Need for test native query with params */
-    /*
     @Override
     public List<Shop> getShopsByIdShop(Integer idShop) {
-        return shopRepository.getShopsByIdShopImpl(idShop);
-    } */
+        return shopRepository.getShopsByIdShop(idShop);
+    }
+
 
     /** Need for test transactions via override methods*/
     /**
