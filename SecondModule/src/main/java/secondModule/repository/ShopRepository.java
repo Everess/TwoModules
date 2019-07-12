@@ -3,7 +3,6 @@ package secondModule.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import secondModule.model.Shop;
 
@@ -20,8 +19,9 @@ public interface ShopRepository extends JpaRepository<Shop, Integer>, JpaSpecifi
 
     List<Shop> findShopByShopTitleAndIdRegion(String shopTitle, Long idRegion); */
 
-    List<Shop> getShopsByShopTitleAndIdRegion(String shopTitle, Long idRegion);
-    
+    /**
+     * Method for test native query
+     */
     @Query(value = "SELECT * FROM first_test_schema.shop s WHERE s.id_shop = 3", nativeQuery = true)
     List<Shop> findShopByIdShop();
 

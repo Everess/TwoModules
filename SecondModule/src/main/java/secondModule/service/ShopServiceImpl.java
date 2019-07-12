@@ -2,8 +2,11 @@ package secondModule.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import secondModule.model.Shop;
 import secondModule.repository.ShopRepository;
@@ -34,7 +37,9 @@ public class ShopServiceImpl implements ShopService {
     )); }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED,
+                   propagation = Propagation.REQUIRED,
+                   rollbackFor = Exception.class)
     public void createShop(List<Shop> shop) throws Exception {
 
         List<Shop> newShop = null;
@@ -48,33 +53,30 @@ public class ShopServiceImpl implements ShopService {
         }
     }
 
-    /**
-     * TODO: Make this method work
-     * Method for test criteria builder
-     * @param shopTitle
-     * @param idRegion
-     */
     @Override
-    public List<Shop> getShopsByShopTitleAndIdRegion(String shopTitle, Long idRegion) {
+    public List<Shop> findAllShops(String shopTitle) {
 
-        // EntityManagerFactory emf = Persistence.createEntityManagerFactory("ru.easyjava.data.jpa.hibernate");
-        // EntityManager em = emf.createEntityManager();
-        Iterable<? extends Shop> shop = null;
-        /*
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Shop> criteria = builder.createQuery(Shop.class);
-        Root<Shop> root = criteria.from(Shop.class);
+        shopTitle = "%" + shopTitle + "%";
 
-        for (Shop s : shop) {
-            if (s.idRegion != null) {
-                criteria.select(root).where(builder.equal(root.get("region"), 73));
-                // criteria.select(root).where((Predicate) shopSpecs.getShopsByShopRegion(region));
-            } else {
-                criteria.select(root).where(builder.equal(root.get("shopTitle"), "Magaz"));
-            }
-        } */
+        ShopSpecification shopSpecification = new ShopSpecification();
 
-        return shopRepository.getShopsByShopTitleAndIdRegion(shopTitle, idRegion);
+        return shopRepository.findAll(shopSpecification.findAllShops(shopTitle));
+    }
+
+    @Override
+    public List<Shop> findAllShopsByTitleAndIdRegion(String shopTitle, Long idRegion) {
+
+        shopTitle = "%" + shopTitle + "%";
+
+        ShopSpecification shopSpecification = new ShopSpecification();
+
+        if (idRegion == null) {
+
+            return shopRepository.findAll(shopSpecification.findAllShops(shopTitle));
+        } else {
+
+            return shopRepository.findAll(shopSpecification.findAllShopsByIdRegion(idRegion));
+        }
     }
 
     /** Need for test native query with params */

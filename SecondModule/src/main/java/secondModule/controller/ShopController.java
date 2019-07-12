@@ -34,7 +34,7 @@ public class ShopController {
      * @param shopTitle
      * @param idRegion
      */
-    @GetMapping(params = {"shop_title", "region"})
+    @GetMapping(params = { "shop_title", "region" })
     public List<Shop> findAll(@RequestParam("shop_title") String shopTitle,
                                           @RequestParam("region") Long idRegion) {
 
@@ -61,11 +61,24 @@ public class ShopController {
     }
 
     /**
-     * Test method for criteria builder
+     * Method for test criteria query with one param
+     * @param shopTitle
      */
-    @GetMapping(value = "/criteria", params = {"shop_title", "region"})
-    public List<Shop> getShopsByShopTitleAndIdRegion(@RequestParam("shop_title") String shopTitle,
-                               @RequestParam("region") Long idRegion) {
-        return shopService.getShopsByShopTitleAndIdRegion(shopTitle, idRegion);
+    @GetMapping(value = "/criteriaParam", params = { "shop_title" })
+    public List<Shop> findAllShops(@RequestParam("shop_title") String shopTitle) {
+
+        return shopService.findAllShops(shopTitle);
     }
+
+    /**
+     * Method for test criteria query with two params
+     * @param shopTitle
+     */
+    @GetMapping(value = "/criteriaParams", params = { "shop_title", "region" })
+    public List<Shop> findAllShopsByTitleAndIdRegion(@RequestParam("shop_title") String shopTitle,
+                                                     @RequestParam("region") Long idRegion) {
+
+        return shopService.findAllShopsByTitleAndIdRegion(shopTitle, idRegion);
+    }
+
 }
