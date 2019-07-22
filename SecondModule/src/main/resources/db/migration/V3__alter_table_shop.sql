@@ -1,1 +1,0 @@
-alter table shop add column region int8;

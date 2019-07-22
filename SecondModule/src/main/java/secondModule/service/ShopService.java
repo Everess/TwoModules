@@ -3,6 +3,7 @@ package secondModule.service;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import secondModule.model.Shop;
+import secondModule.repository.ShopRepo;
 
 import java.util.List;
 
@@ -51,4 +52,9 @@ public interface ShopService {
      * @param idShop
      */
     List<Shop> getShopsByIdShop(Integer idShop);
+
+    /**
+     * Realize optional functions
+     */
+    Shop findById(Integer idShop) throws Exception;
 }

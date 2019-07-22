@@ -28,6 +28,14 @@ public class Shop {
         this.idRegion = region;
     }
 
+    public Integer getIdShop() {
+        return idShop;
+    }
+
+    public void setIdShop(Integer idShop) {
+        this.idShop = idShop;
+    }
+
     public String getShopTitle() {
         return shopTitle;
     }

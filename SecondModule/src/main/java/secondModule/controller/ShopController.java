@@ -2,9 +2,14 @@ package secondModule.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import secondModule.dto.ShopDto;
+import secondModule.mapper.ShopMapper;
 import secondModule.model.Shop;
+import secondModule.repository.ShopRepo;
+import secondModule.repository.ShopRepository;
 import secondModule.service.ShopServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,10 +20,12 @@ import java.util.List;
 public class ShopController {
 
     private final ShopServiceImpl shopService;
+    private final ShopRepo shopRepo;
 
     @Autowired
-    private ShopController(ShopServiceImpl shopService) {
+    private ShopController(ShopServiceImpl shopService, ShopRepo shopRepo) {
         this.shopService = shopService;
+        this.shopRepo = shopRepo;
     }
 
     /** Need for test native query with params */
@@ -78,5 +85,41 @@ public class ShopController {
                                                      @RequestParam("region") Long idRegion) {
 
         return shopService.findAllShopsByTitleAndIdRegion(shopTitle, idRegion);
+    }
+
+    @GetMapping(value = "/optional", params = { "id_shop"})
+    public Shop findAllShopsByTitleAndIdRegion(@RequestParam("id_shop") Integer idShop) throws Exception {
+
+        return shopService.findById(idShop);
+    }
+
+    /**
+     * This method realize mapper
+     */
+    /*
+    @GetMapping(value = "/mapper")
+    public ShopDto getMapper() {
+
+        Integer idShop = 1;
+
+        ShopMapper shopMapper = ShopMapper.INSTANCE;
+
+        return shopMapper.shopToShopDto(shopRepo.findById(idShop).get());
+    } */
+
+    /**
+     * This method realize mapper which convert List
+     */
+    @GetMapping(value = "/mapperList")
+    public List<ShopDto> getMapperList() {
+        
+        List<Shop> s = new ArrayList<>();
+
+        Iterable<Shop> i = shopRepo.findAll();
+        i.forEach(s::add);
+
+        ShopMapper shopMapper = ShopMapper.INSTANCE;
+
+        return shopMapper.SHOP_DTO_LIST(s);
     }
 }

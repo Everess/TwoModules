@@ -1,19 +1,24 @@
 package secondModule.dto;
 
-public class Shop {
+public class ShopDto {
 
     public Integer idShop;
 
     public String shopTitle;
 
-    public Long idRegion;
+    public ShopDto() { }
 
-    public Shop() { }
-
-    public Shop(Integer idShop, String shopTitle, Long region) {
+    public ShopDto(Integer idShop, String shopTitle) {
         this.idShop = idShop;
         this.shopTitle = shopTitle;
-        this.idRegion = region;
+    }
+
+    public Integer getIdShop() {
+        return idShop;
+    }
+
+    public void setIdShop(Integer idShop) {
+        this.idShop = idShop;
     }
 
     public String getShopTitle() {
@@ -24,11 +29,4 @@ public class Shop {
         this.shopTitle = shopTitle;
     }
 
-    public Long getIdRegion() {
-        return idRegion;
-    }
-
-    public void setIdRegion(Long idRegion) {
-        this.idRegion = idRegion;
-    }
 }
