@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import secondModule.dto.ShopDto;
 import secondModule.mapper.ShopMapper;
 import secondModule.model.Shop;
-import secondModule.repository.ShopRepo;
 import secondModule.repository.ShopRepository;
 import secondModule.service.ShopServiceImpl;
 
@@ -20,12 +19,12 @@ import java.util.List;
 public class ShopController {
 
     private final ShopServiceImpl shopService;
-    private final ShopRepo shopRepo;
+    private final ShopRepository shopRepository;
 
     @Autowired
-    private ShopController(ShopServiceImpl shopService, ShopRepo shopRepo) {
+    private ShopController(ShopServiceImpl shopService, ShopRepository shopRepository) {
         this.shopService = shopService;
-        this.shopRepo = shopRepo;
+        this.shopRepository = shopRepository;
     }
 
     /** Need for test native query with params */
@@ -115,7 +114,7 @@ public class ShopController {
         
         List<Shop> s = new ArrayList<>();
 
-        Iterable<Shop> i = shopRepo.findAll();
+        Iterable<Shop> i = shopRepository.findAll();
         i.forEach(s::add);
 
         ShopMapper shopMapper = ShopMapper.INSTANCE;
